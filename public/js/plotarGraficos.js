@@ -686,9 +686,6 @@ function plotarGraficoUser(cpu, ram) {
         ramDados.push(ram[i].registro)
     }
 
-    cpuDados = cpuDados.reverse()
-    momento = momento.reverse()
-    ramDados = ramDados.reverse()
 
 
     const data = {

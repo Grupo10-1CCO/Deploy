@@ -89,6 +89,8 @@
                                 <div>
                                     <h2>Chamados abertos</h2>
                                     <h1 id="num_alertas">0</h1>
+                                    <h2>Chamados resolvidos</h2>
+                                    <h1 id="resolvidos">0</h1>
                                 </div>
                             </div>
                             <div class="dados_gerais2">
@@ -169,7 +171,7 @@ fetch("/medidas/buscarServidores", {
     })
     
 
-const options = {
+var options = {
   method: 'POST',
   headers: {
     'accept': 'application/json',
@@ -199,9 +201,40 @@ fetch('https://api.pipefy.com/graphql', options)
     }
     num_alertas.innerHTML = contador;
     
+  }).catch(err => console.error(err));
+
+  options = {
+  method: 'POST',
+  headers: {
+    'accept': 'application/json',
+    'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjozMDIwODY5MjUsImVtYWlsIjoiam9hby5jb25jZWljYW9Ac3B0ZWNoLnNjaG9vbCIsImFwcGxpY2F0aW9uIjozMDAyMDc0NzZ9fQ.SRZx-58-x8HKCSTanwLU7MzGVoenpQwrmFpDppWzJduSo8NDJKtAw65ECGCGWEOO_1SJ65LnacQmgQ0aEIunXA',
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    query: '{cards(pipe_id: "302763672") {edges {node {done createdBy {id}fields {name value}}}}}'
+  })
+};
+
+fetch('https://api.pipefy.com/graphql', options)
+  .then(response => response.json())
+  .then(response => {
+    
+    var jArray = response.data.cards.edges
+    var contador = 0;
+    for (let i = 0; i < jArray.length; i++) {
+        for (let j = 0; j < jArray[i]['node']['fields'].length; j++) {
+            if(jArray[i]['node']['createdBy']['id'] == sessionStorage.ID_PIPEFY && jArray[i]['node']['fields'][j]['value'] == sessionStorage.SERIAL_MAQUINA && jArray[i]['node']['done'] == true) {
+            contador += 1;
+        }
+            
+        }
+        
+        
+    }
+    resolvidos.innerHTML = contador;
+    
   })
   .catch(err => console.error(err));
-
     
   
     
