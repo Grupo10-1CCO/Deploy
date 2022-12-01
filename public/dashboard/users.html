@@ -49,7 +49,7 @@
                 <a><img src="../assets/icons/server.png">Servidor 04</a>
             </li>-->
         </ul>
-        
+
 
         <ul>
             <li>
@@ -114,10 +114,12 @@
                     email = json[index].email;
                     senha = json[index].senha;
                     cargo = json[index].cargo;
+                    idPipefy = json[index].idPipefy;
 
                     lista_user.innerHTML += `<div class="box_user">
                                                     ID: ${idUsuario} | Nome: ${nome} | E-mail: ${email} 
                                                      | Cargo: ${cargo}
+                                                     <div><button onclick="sessionStorage.ID_PIPEFY = ${idPipefy},sessionStorage.USUARIO_ANALISE=${idUsuario}, window.location='detalhesUser.html'">Analisar usuário</button></div>
                                                 </div>`
                 }
 

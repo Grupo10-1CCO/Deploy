@@ -360,7 +360,7 @@ h1,h2,h3 {
     font-weight: 700;
 }
 
-.botoes_user button:hover {
+.botoes_user button, #botao_analisar:hover  {
     cursor: pointer;
     background-color: #37702e94;
     transition: 0.2s;
@@ -374,7 +374,7 @@ h1,h2,h3 {
     overflow: auto;
 }
 
-.box_user, .box_metrica {
+.box_user, .box_metrica, .box_maquina {
     padding-left: 2% ;
     margin-bottom: 2vh;
     color: white;
@@ -383,6 +383,22 @@ h1,h2,h3 {
     background-color: var(--preto-header);
     font-family: 'Poppins';
     font-weight: bolder;
+}
+
+.box_user button{
+    border:none;
+    height: 90%;
+    width: 150px;
+    border-radius: 10px;
+    background-color: var(--verde-samp);
+    color: white;
+    font-family: 'Poppins';
+    font-weight: 700;
+}
+.box_user button:hover{
+    cursor: pointer;
+    background-color: #37702e94;
+    transition: 0.2s;
 }
 
 .fr1Analise select{
