@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/styleDash.css">
+        <link rel="icon" type="image/x-icon" href="../assets/LogoSimbolo.png" />
+        <link href='https://fonts.googleapis.com/css?family=Inter' rel='stylesheet'>
+        <title>SAMP</title>
+    </head>
+
+    <body onload="validarSessao(), reset()">
+
+        <div class="header_dash">
+            <nav class="nav_dash">
+                <div class="header_menu">
+                    <img src="../assets/icons/burger-bar.png" onclick="botaoMenu()">
+                </div>
+                <div class="header_logo">
+                    <img src="../assets/logobranca.png">
+                </div>
+            </nav>
+            
+        </div>
+
+        <div class="menu" id="sidebar">
+
+            <h2 id="nome_empresa">C6</h2>
+            <ul>
+            <li>
+                <a href="analise.html"><img src="../assets/icons/bar-chart.png">Análise</a>
+            </li>
+            <li>
+                <a href="scraper.html"><img src="../assets/icons/scraping.png">Scraping</a>
+            </li>
+            <li>
+                <a href="users.html"><img src="../assets/icons/add-user.png">Funcionários</a>
+            </li>
+            <li>
+                <a href="addMetrica.html"><img src="../assets/icons/bar-chart.png">Métrica</a>
+            </li>
+        </ul>
+            <ul id="ul_maquinas">
+              <!--  <li class="item-selecionado">
+                    <a><img src="../assets/icons/server.png">Servidor 01</a>
+                </li>
+                <li>
+                    <a><img src="../assets/icons/server.png">Servidor 02</a>
+                </li>
+                <li>
+                    <a><img src="../assets/icons/server.png">Servidor 03</a>
+                </li>
+                <li>
+                    <a><img src="../assets/icons/server.png">Servidor 04</a>
+                </li>-->
+            </ul>
+            <ul>
+                <li>
+                    <a onclick="limparSessao()"><img src="../assets/icons/log-out.png">Sair</a>
+                </li>
+            </ul>
+
+        </div>
+        
+            <div class="dash">
+
+                <div class="main_scraper">
+                    <h1>Web Scraper - Reclame Aqui</h1>
+                    <h3>Nessa página você poderá utilizar nosso Web Scraper do site Reclame Aqui, ao ser executado nosso scraper gera uma wordcloud com as palavras mais frequentes nas reclamações dos seus clientes e um gráfico simples que te informa qual o 'status' das reclamações. Para seu funcionamento, basta informar a página do reclame aqui de seu banco:</h3>
+
+                    <div class="campoLink">
+                        <input>
+                        <button onclick="chamarApi('teste')">Gerar</button>
+                    </div>
+
+                    <div class="wordcloud">
+                        <div class="tituloWordCloud">
+                            <h2>WordCloud</h2>
+                            <a download href="../js/caca-reclamacao/Plots/wordcloud.png">
+                                <div class="btnDownload">
+                                    <img src="../assets/icons/download.png">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="areaGraficoScrap">
+                            <img id="imgWordcloud" src="../assets/loading_scrap2.gif">
+                            <h2 id="statusScrapCloud"></h2>
+                        </div>
+                        <!--<img src="../assets/wordcloudfilme6.png" style="height: 100%; width: 70%;">-->
+                    </div>
+                    <div class="status">
+                        <div class="tituloStatus">
+                            <h2>Status das Reclamações</h2>
+                            <a download href="../js/caca-reclamacao/Plots/piestautus.png">
+                                <div class="btnDownload">
+                                    <img src="../assets/icons/download.png">
+                                </div>
+                            </a>
+                        </div>
+                        <div class="areaGraficoScrap">
+                            <img id="imgStatus" src="../assets/loading_scrap2.gif">
+                            <h2 id="statusScrapStatus"></h2>
+                        </div>
+                        <!--<img src="../assets/wordcloudfilme6.png" style="height: 100%; width: 70%;">-->
+                    </div>
+                </div>
+
+            </div>
+        
+    </body>
+
+    </html>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="../js/plotarGraficos.js"></script>
+    <script src="../js/funcoes.js"></script>
+    <script src="../js/sidebar.js"></script>
+    <script src="../js/python.js"></script>
