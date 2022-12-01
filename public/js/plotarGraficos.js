@@ -29,8 +29,94 @@ function plotarBotoes() {
     })
 }
 
-function gerar(idEmpresa, idMaquina) {
+var qtdeVoltas = 0;
 
+function atualizarKpi(idEmpresa, idMaquina, fkComponente) {
+    fetch(`/medidas/registrosTempoReal/${idEmpresa}/${idMaquina}/${fkComponente}`, {
+        cache: 'no-store'
+    }).then(function (resposta) {
+        if (resposta.ok) {
+            resposta.json().then(function (novoPonto) {
+                console.log(`Novo dado recebido KPI: ${JSON.stringify(novoPonto)}`);
+
+
+                nomeSplit = novoPonto[0].nomeComponente.substring(0, 3);
+
+                //binchilin
+
+                    if (nomeSplit == "CPU") {
+                        // alert("AGUI: " + novoPonto[0].registro);
+                        var tuplaCPU = novoPonto[0];
+                        if (tuplaCPU.registro <= 10) {
+                            mudacor = document.getElementById("coresId");
+                            mudacor.style.backgroundColor = "lightblue";
+                            //   alert("O retorno da tuplaCPU.registro  foi: "+tuplaCPU.registro)
+                        } else if (tuplaCPU.registro > 10 && tuplaCPU.registro < 21) {
+                            mudacor = document.getElementById("coresId");
+                            mudacor.style.backgroundColor = "#0ab1e9";
+                            //   alert("O retorno da tuplaCPU.registro  foi: "+tuplaCPU.registro)
+                        } else if (tuplaCPU.registro >= 21 && tuplaCPU.registro < 61) {
+                            mudacor = document.getElementById("coresId");
+                            mudacor.style.backgroundColor = "#0ae97a";
+                            //   alert("O retorno da tuplaCPU.registro  foi: "+tuplaCPU.registro)
+                        } else if (tuplaCPU.registro >= 61 && tuplaCPU.registro < 81) {
+                            mudacor = document.getElementById("coresId");
+                            mudacor.style.backgroundColor = "#e9da0a";
+                            //   alert("O retorno da tuplaCPU.registro  foi: "+tuplaCPU.registro)
+                        } else {
+                            mudacor = document.getElementById("coresId");
+                            mudacor.style.backgroundColor = "#e90a0a";
+                            //   alert("O retorno da tuplaCPU.registro  foi: "+tuplaCPU.registro)
+                        }
+                        if (qtdeVoltas > 1) {
+                            clearTimeout(proximaAttCpu);
+                        }
+                        proximaAttCpu = setTimeout(() => atualizarKpi(idEmpresa, idMaquina, fkComponente), 5000);
+                    } else if (nomeSplit == "Tem") {
+                        // alert("Temp: " + novoPonto[0].registro);
+                        var tuplaTem = novoPonto[0];
+                        if (tuplaTem.registro <= 10) {
+                            mudacor = document.getElementById("coresId2");
+                            mudacor.style.backgroundColor = "lightblue";
+                            //   alert("O retorno da tuplaTem.registro  foi: "+tuplaTem.registro)
+                        } else if (tuplaTem.registro > 10 && tuplaTem.registro < 21) {
+                            mudacor = document.getElementById("coresId2");
+                            mudacor.style.backgroundColor = "#0ab1e9";
+                            //   alert("O retorno da tuplaTem.registro  foi: "+tuplaTem.registro)
+                        } else if (tuplaTem.registro >= 21 && tuplaTem.registro < 61) {
+                            mudacor = document.getElementById("coresId2");
+                            mudacor.style.backgroundColor = "#0ae97a";
+                            //   alert("O retorno da tuplaTem.registro  foi: "+tuplaTem.registro)
+                        } else if (tuplaTem.registro >= 61 && tuplaTem.registro < 81) {
+                            mudacor = document.getElementById("coresId2");
+                            mudacor.style.backgroundColor = "#e9da0a";
+                            //   alert("O retorno da tuplaTem.registro  foi: "+tuplaTem.registro)
+                        } else {
+                            mudacor = document.getElementById("coresId2");
+                            mudacor.style.backgroundColor = "#e90a0a";
+                            //   alert("O retorno da tuplaTem.registro  foi: "+tuplaTem.registro)
+                        }
+                        if (qtdeVoltas > 1) {
+                            clearTimeout(proximaAttTem);
+                        }
+
+                        proximaAttTem = setTimeout(() => atualizarKpi(idEmpresa, idMaquina, fkComponente), 5000);
+                    }
+                
+
+
+
+
+            })
+        } else {
+            console.error('Nada foi encontrado!');
+            proximaAtt = setTimeout(() => atualizarKpi(idEmpresa, idMaquina, fkComponente), 5000);
+        }
+    })
+}
+
+function gerar(idEmpresa, idMaquina) {
+    qtdeVoltas++;
     
 
     // Mexer quando for fazer os links para maquinas
@@ -57,6 +143,7 @@ function gerar(idEmpresa, idMaquina) {
                 
                 for (var i = 0; i < retorno.length; i++) {
                     gerarGrafico(retorno[i].fkComponente);
+                    atualizarKpi(idEmpresa, idMaquina, retorno[i].fkComponente);
                 }
                 // graficosMedia(idMaquina);
 
@@ -78,7 +165,7 @@ function gerar(idEmpresa, idMaquina) {
 
                     console.log("Valor final disco: " + quantidadeDiscos);
                 
-                    if(quantidadeDiscos > 2){
+                    if(quantidadeDiscos >= 2){
                         areaDiscoGeral.classList.remove("disco_rede");
                         areaDiscoGeral.classList.add("disco_rede2");
         
@@ -113,7 +200,7 @@ function gerar(idEmpresa, idMaquina) {
         var nomeComponente = retorno[0].nomeComponente;
         var nomeSplit = nomeComponente.substring(0,3);
 
-        if(nomeSplit == "CPU" || nomeSplit == "RAM"){
+        if(nomeSplit == "CPU" || nomeSplit == "RAM" || nomeSplit == "Tem"){
 
             if(nomeSplit == "CPU"){
                 var areaCpu = document.getElementById("divGraficoCpu");
@@ -133,6 +220,16 @@ function gerar(idEmpresa, idMaquina) {
                 canvasRam.setAttribute("class", "cnvGrafico");
                 canvasRam.setAttribute("id", "graficoRam");
                 areaRam.append(canvasRam);
+            }
+
+            if (nomeSplit == "Tem") {
+                var areaTemp = document.getElementById("divGraficoTemp");
+
+                document.getElementById("graficoTemp").remove();
+                var canvasTemp = document.createElement("canvas");
+                canvasTemp.setAttribute("class", "cnvGrafico");
+                canvasTemp.setAttribute("id", "graficoTemp");
+                areaTemp.append(canvasTemp);
             }
 
             var vetorData = [];
@@ -201,7 +298,7 @@ function gerar(idEmpresa, idMaquina) {
                     maintainAspectRatio: false,
                 }
             };
-        }else{
+        }else if (nomeSplit == "Dis"){
 
             quantidadeDiscos++;
 
@@ -289,7 +386,14 @@ function gerar(idEmpresa, idMaquina) {
 
             setTimeout(() => atualizarGrafico(idEmpresa, idMaquina, idComponente, data), 5000);
 
-        }else{
+        } else if (nomeSplit == "Tem") {
+            var graficoMon = new Chart(
+                document.getElementById(`graficoTemp`),
+                config,
+            );
+
+            setTimeout(() => atualizarGrafico(idEmpresa, idMaquina, idComponente, data), 5000);
+        }else if(nomeSplit == "Dis"){ 
             var graficoMon = new Chart(
                 document.getElementById(`graficoDisco${retorno[0].fkComponente}`),
                 config,
@@ -515,16 +619,20 @@ function buscarInfoMaquina(idMaquina){
 
                 for(var i = 0; i < resposta.length; i++){
                     infoComponente = resposta[i];
-                    var paragrafo = document.createElement("p");
                     nomeComponenteRetorno = infoComponente.nomeComponente.substring(0,3);
                     if(nomeComponenteRetorno == "CPU"){
+                        var paragrafo = document.createElement("p");
                         paragrafo.innerHTML = "Processador: " + infoComponente.nomeComponente;
+                        areaInfo.appendChild(paragrafo);
                     }else if(nomeComponenteRetorno == "RAM"){
+                        var paragrafo = document.createElement("p");
                         paragrafo.innerHTML = "Memória RAM Total: " + infoComponente.tamanho + " GB";
-                    }else{
+                        areaInfo.appendChild(paragrafo);
+                    }else if(nomeComponenteRetorno == "Dis"){
+                        var paragrafo = document.createElement("p");
                         paragrafo.innerHTML = infoComponente.nomeComponente + " - Espaço Total de Disco: " + infoComponente.tamanho + " GB";
+                        areaInfo.appendChild(paragrafo);
                     }
-                    areaInfo.appendChild(paragrafo);
                 }
 
             })
