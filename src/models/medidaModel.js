@@ -202,7 +202,7 @@ function buscarMonitorados(idUsuario){
     var query = ``;
 
     if(process.env.AMBIENTE_PROCESSO == "producao") {
-        query = `select MAX(Maquina.nome) as nome, count(Relatorio.fkMaquina) as fkMaquina from Relatorio join Maquina on idMaquina = fkMaquina where fkUsuario=${idUsuario} group by Relatorio.fkMaquina;
+        query = `select MAX(Maquina.nome) as 'nome', count(Relatorio.fkMaquina) from Relatorio join Maquina on idMaquina = fkMaquina where fkUsuario=${idUsuario} group by Relatorio.fkMaquina;
 
         `;
     }else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
