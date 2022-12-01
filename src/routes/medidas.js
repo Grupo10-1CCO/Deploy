@@ -67,4 +67,8 @@ router.get("/buscarComponentesMaquinaPorUser/:idUsuario/:idMaquina", function (r
     medidaController.buscarComponentesMaquinaPorUser(req, res);
 });
 
+router.get("/correlacaoTempCPU/:idMaquina", function(req, res){
+    medidaController.correlacaoTempCPU(req, res);
+});
+
 module.exports = router;

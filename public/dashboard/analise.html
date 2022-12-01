@@ -28,16 +28,8 @@
         <div class="menu" id="sidebar">
 
             <h2 id="nome_empresa">C6</h2>
-            <ul>
-                <li>
-                    <a href="analise.html"><img src="../assets/icons/bar-chart.png">Análise</a>
-                </li>
-                <li>
-                    <a href="users.html"><img src="../assets/icons/add-user.png">Funcionários</a>
-                </li>
-            </ul>
             <ul id="ul_maquinas">
-                <!--  <li class="item-selecionado">
+              <!--  <li class="item-selecionado">
                     <a><img src="../assets/icons/server.png">Servidor 01</a>
                 </li>
                 <li>
@@ -49,6 +41,12 @@
                 <li>
                     <a><img src="../assets/icons/server.png">Servidor 04</a>
                 </li>-->
+                <li>
+                    <a href="analise.html"><img src="../assets/icons/bar-chart.png">Análise</a>
+                </li>
+                <li>
+                    <a href="users.html"><img src="../assets/icons/add-user.png">Funcionários</a>
+                </li>
             </ul>
             <ul>
                 <li>
@@ -66,8 +64,8 @@
                     <div id="area_botoes"></div>
                     <div class="geral">
                         <div class="fr1Analise">
-                            <select id="slcMaquinas" onchange="graficosMedia(this)">
-                                
+                            <select id="slcMaquinas" class="slcAnalise" onchange="graficosMedia(this)">
+                                <option></option>
                             </select>
                             <div class="processos">
                                 <h2>Média de uso de CPU</h2>
@@ -85,6 +83,12 @@
                                 <h2>Média de uso de Disco</h2>
                                 <div class="divGrafico" id="divGraficoDisco">
                                     <canvas class="cnvGrafico" id="graficoDisco"></canvas>
+                                </div>
+                            </div>
+                            <div class="processos">
+                                <h2>Correlação da temperatura com uso da CPU</h2>
+                                <div class="divGrafico" id="divGraficoTemperatura">
+                                    <canvas class="cnvGrafico" id="graficoTemperatura"></canvas>
                                 </div>
                             </div>
                         </div>

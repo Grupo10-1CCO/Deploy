@@ -302,6 +302,22 @@ function buscarMonitorados(req, res) {
         );
 }
 
+function correlacaoTempCPU(req, res){
+    var idMaquina = req.params.idMaquina;
+
+    medidaModel.correlacaoTempCPU(idMaquina).then(function (resultado){
+        if(resultado.length > 0){
+            res.status(200).json(resultado);
+        }else{
+            res.status(204).send("Não foi encontrado dados de temperatura e CPU")
+        }
+    }).catch(function (erro){
+        console.log(erro);
+        console.log("Houve um erro ao tentar resgatar os dados da temperatura e CPU! Erro: " + erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
 module.exports = {
     buscarMaquinas,
     buscarUltimosRegistros,
@@ -316,7 +332,8 @@ module.exports = {
     buscarComponentesMaquinaPorUser,
     qtdRegistrosPorUser,
     buscarUltimosRegistrosUser,
-    buscarMonitorados
+    buscarMonitorados,
+    correlacaoTempCPU
     
     // buscarUltimasMedidas,
     // buscarMedidasEmTempoReal

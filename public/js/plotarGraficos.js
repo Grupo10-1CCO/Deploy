@@ -447,161 +447,169 @@ function gerar(idEmpresa, idMaquina) {
 function graficosMedia(idMaquina) {
     var selecionado = idMaquina.value;
     fetch("/medidas/mediaUsoComponente").then(function (retorno) {
-        if (retorno.ok) {
-            if (retorno == 204) {
-                console.log("Retorno vazio de máquinas!");
-            }
-            retorno.json().then(function (resposta) {
-                console.log("Médias Recebidas: ", JSON.stringify(resposta));
-
-                plotarGraficoMedia(resposta, selecionado);
-
-            })
+      if (retorno.ok) {
+        if (retorno == 204) {
+          console.log("Retorno vazio de máquinas!");
         }
-    })
-
-    function plotarGraficoMedia(retorno, idMaquina) {
-        for (var i = 0; i < retorno.length; i++) {
-
-            if (idMaquina == retorno[i].idMaquina) {
-                
-                var nomeComponente = retorno[i].nomeComponente;
-                var nomeSplit = nomeComponente.substring(0,3);
-
-                if(nomeSplit == "CPU"){
-                    var areaCpu = document.getElementById("divGraficoCpu");
-    
-                    document.getElementById("graficoCpu").remove();
-                    var canvasCpu = document.createElement("canvas");
-                    canvasCpu.setAttribute("class", "cnvGrafico");
-                    canvasCpu.setAttribute("id", "graficoCpu");
-                    areaCpu.append(canvasCpu);
-                }
-    
-                if(nomeSplit == "RAM"){
-                    var areaRam = document.getElementById("divGraficoRam");
-    
-                    document.getElementById("graficoRam").remove();
-                    var canvasRam = document.createElement("canvas");
-                    canvasRam.setAttribute("class", "cnvGrafico");
-                    canvasRam.setAttribute("id", "graficoRam");
-                    areaRam.append(canvasRam);
-                }
-
-                if(nomeSplit == "Dis"){
-                    var areaDisco = document.getElementById("divGraficoDisco");
-    
-                    document.getElementById("graficoDisco").remove();
-                    var canvasDisco = document.createElement("canvas");
-                    canvasDisco.setAttribute("class", "cnvGrafico");
-                    canvasDisco.setAttribute("id", "graficoDisco");
-                    areaDisco.append(canvasDisco);
-                }
-                
-                if(nomeSplit == "CPU" || nomeSplit == "RAM"){
-
-                    const dataMedia = {
-                        labels: [
-                            'Média de Uso (%)',
-                            'Média não sendo usada (%)'
-                        ],
-                        datasets: [{
-                            label: `Média Registro ${retorno[i].nomeComponente}`,
-                            data: [retorno[i].MediaUso, 100 - retorno[i].MediaUso],
-                            backgroundColor: [
-                                '#4d9e4194',
-                                '#6B6568',
-                            ],
-                            hoverOffset: 4
-                        }]
-                    };
-    
-                    const config = {
-                        type: 'doughnut',
-                        data: dataMedia,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            elements: {
-                                arc: {
-                                    borderWidth: 0
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    labels: {
-                                        color: 'white',
-                                        font:{
-                                            size: 14
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    };
-
-                    if(nomeSplit == "CPU"){
-                        var graficoMon = new Chart(
-                            document.getElementById(`graficoCpu`),
-                            config,
-                        );
-                    }else if(nomeSplit == "RAM"){
-                        var graficoMon = new Chart(
-                            document.getElementById(`graficoRam`),
-                            config,
-                        );
-                    }
-                }else{
-                    const dataMedia = {
-                        labels: [
-                            'Média Usada do Disco (%)',
-                            'Média Espaço Livre (%)',
-                        ],
-                        datasets: [{
-                            label: `Média Registro ${retorno[i].nomeComponente}`,
-                            data: [retorno[i].MediaUso, 100 - retorno[i].MediaUso],
-                            backgroundColor: [
-                                '#4d9e4194',
-                                '#6B6568',
-                            ],
-                            hoverOffset: 4
-                        }]
-                    };
-    
-                    const config = {
-                        type: 'doughnut',
-                        data: dataMedia,
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            elements: {
-                                arc: {
-                                    borderWidth: 0
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    labels: {
-                                        color: 'white',
-                                        font:{
-                                            size: 14
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    };
-
-                    var graficoMon = new Chart(
-                        document.getElementById(`graficoDisco`),
-                        config,
-                    );
-                }
-            }
-
+        retorno.json().then(function (resposta) {
+          console.log("Médias Recebidas: ", JSON.stringify(resposta));
+  
+          plotarGraficoMedia(resposta, selecionado);
+        });
+      }
+    });
+    fetch(`/medidas/correlacaoTempCPU/${selecionado}`).then(function (retorno) {
+      if (retorno.ok) {
+        if (retorno == 204) {
+          console.log(
+            "Retorno vazio de máquinas (Correlação Temperatura com CPU)!"
+          );
         }
+        retorno.json().then(function (resposta) {
+          console.log("Médias Recebidas: ", JSON.stringify(resposta));
+  
+          // plotarGraficoMedia(resposta, selecionado);
+          plotarGraficoCorrelacaoTempCPU(resposta, selecionado);
+        });
+      }
+    });
+  }
+  
+  function plotarGraficoMedia(retorno, idMaquina) {
+    for (var i = 0; i < retorno.length; i++) {
+      console.log("RETORNO: plotarGraficoMedia");
+      console.log(retorno);
+      if (idMaquina == retorno[i].idMaquina) {
+        var nomeComponente = retorno[i].nomeComponente;
+        var nomeSplit = nomeComponente.substring(0, 3);
+  
+        if (nomeSplit == "CPU") {
+          var areaCpu = document.getElementById("divGraficoCpu");
+  
+          document.getElementById("graficoCpu").remove();
+          var canvasCpu = document.createElement("canvas");
+          canvasCpu.setAttribute("class", "cnvGrafico");
+          canvasCpu.setAttribute("id", "graficoCpu");
+          areaCpu.append(canvasCpu);
+        }
+  
+        if (nomeSplit == "RAM") {
+          var areaRam = document.getElementById("divGraficoRam");
+  
+          document.getElementById("graficoRam").remove();
+          var canvasRam = document.createElement("canvas");
+          canvasRam.setAttribute("class", "cnvGrafico");
+          canvasRam.setAttribute("id", "graficoRam");
+          areaRam.append(canvasRam);
+        }
+  
+        if (nomeSplit == "Dis") {
+          var areaDisco = document.getElementById("divGraficoDisco");
+  
+          document.getElementById("graficoDisco").remove();
+          var canvasDisco = document.createElement("canvas");
+          canvasDisco.setAttribute("class", "cnvGrafico");
+          canvasDisco.setAttribute("id", "graficoDisco");
+          areaDisco.append(canvasDisco);
+        }
+  
+        if (nomeSplit == "CPU" || nomeSplit == "RAM") {
+          const dataMedia = {
+            labels: ["Média de Uso (%)", "Média não sendo usada (%)"],
+            datasets: [
+              {
+                label: `Média Registro ${retorno[i].nomeComponente}`,
+                data: [retorno[i].MediaUso, 100 - retorno[i].MediaUso],
+                backgroundColor: ["#4d9e4194", "#6B6568"],
+                hoverOffset: 4,
+              },
+            ],
+          };
+  
+          const config = {
+            type: "doughnut",
+            data: dataMedia,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              elements: {
+                arc: {
+                  borderWidth: 0,
+                },
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    color: "white",
+                    font: {
+                      size: 14,
+                    },
+                  },
+                },
+              },
+            },
+          };
+  
+          if (nomeSplit == "CPU") {
+            var graficoMon = new Chart(
+              document.getElementById(`graficoCpu`),
+              config
+            );
+  
+            // function getCPU(nomeSplit) {
+            //     return retorno.MediaUso
+            // }
+          } else if (nomeSplit == "RAM") {
+            var graficoMon = new Chart(
+              document.getElementById(`graficoRam`),
+              config
+            );
+          }
+        } else if (nomeSplit == "Dis") {
+          const dataMedia = {
+            labels: ["Média Usada do Disco (%)", "Média Espaço Livre (%)"],
+            datasets: [
+              {
+                label: `Média Registro ${retorno[i].nomeComponente}`,
+                data: [retorno[i].MediaUso, 100 - retorno[i].MediaUso],
+                backgroundColor: ["#4d9e4194", "#6B6568"],
+                hoverOffset: 4,
+              },
+            ],
+          };
+  
+          const config = {
+            type: "doughnut",
+            data: dataMedia,
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              elements: {
+                arc: {
+                  borderWidth: 0,
+                },
+              },
+              plugins: {
+                legend: {
+                  labels: {
+                    color: "white",
+                    font: {
+                      size: 14,
+                    },
+                  },
+                },
+              },
+            },
+          };
+  
+          var graficoMon = new Chart(
+            document.getElementById(`graficoDisco`),
+            config
+          );
+        }
+      }
     }
-}
+  }
 
 function buscarInfoMaquina(idMaquina){
     fetch(`/medidas/infoMaquina/${idMaquina}`, {cache: 'no-store'}).then(function (retorno) {
@@ -843,3 +851,131 @@ function gerarGraficoQtdPorUser(idUsuario, idMaquina) {
         
           
 }
+
+function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
+    var dadosCpu = [];
+    var dadosTemp = [];
+    for (var i = 0; i < retorno.length; i++) {
+      console.log("RETORNO: plotarCorrelacaoTempCPU");
+      console.log(retorno);
+      if (idMaquina == retorno[i].idMaquina) {
+        var nomeComponente = retorno[i].nomeComponente;
+        var nomeSplit = nomeComponente.substring(0, 3);
+  
+        if (nomeSplit == "Tem") {
+          console.log(dadosTemp);
+  
+          dadosTemp.push(retorno[i].registro);
+        } else if (nomeSplit == "CPU") {
+          console.log(dadosCpu);
+          dadosCpu.push(retorno[i].registro);
+        }
+      }
+    }
+    var areaTemperatura = document.getElementById("divGraficoTemperatura");
+    document.getElementById("graficoTemperatura").remove();
+    var canvasTemperatura = document.createElement("canvas");
+    canvasTemperatura.setAttribute("class", "cnvGrafico");
+    canvasTemperatura.setAttribute("id", "graficoTemperatura");
+    areaTemperatura.append(canvasTemperatura);
+  
+    var dadosCorrelacao = [];
+  
+    // Y = AX + B
+    // x = cpu
+    // y = temperatura
+    // n = retorno.lenght
+    // var a = dadosCorrelacao.length *
+  
+    // ∑ x (somatória de X)
+    var somatoriaX = 0;
+    for (let index = 0; index < dadosCpu.length; index++) {
+      somatoriaX += dadosCpu[index]
+    }
+    console.log("∑ x : " + somatoriaX)
+  
+    // ∑ y (somatória de Y)
+    var somatoriaY = 0;
+    for (let index = 0; index < dadosTemp.length; index++) {
+      somatoriaY += dadosTemp[index]
+    }
+    console.log("∑ y : " + somatoriaY)
+  
+    // ∑ xy (somatória de XY)
+    var somaXY = 0
+    for(let index = 0; index < dadosTemp.length; index++){
+      somaXY += dadosCpu[index] * dadosTemp[index]
+    }
+    console.log("∑ xy : " + somaXY)
+  
+    // ∑ x ** 2 
+    var xQuadrado = 0;
+    for (let index = 0; index < dadosCpu.length; index++) {
+      xQuadrado += (dadosCpu[index] ** 2)
+    }
+    console.log("∑ X ** 2: " + xQuadrado)
+  
+    // (∑ x) ** 2
+    var xQuadradoElavadoA2 = xQuadrado ** 2
+    console.log("(∑ X) ** 2: " + xQuadradoElavadoA2)
+    
+    // n = quantidade de amaostras
+    // retorno.length
+  
+    // valor de beta
+    var beta = (somaXY - (somatoriaX * somatoriaY / dadosCpu.length)) / (xQuadrado - (somatoriaX ** 2 / dadosCpu.length))
+  
+    console.log("ALFA: PPPPPPPPPP")
+    console.log(beta)
+  
+    // valor de alfa
+    var alfa = dadosTemp[0] - beta * dadosCpu[0]
+    console.log("BETA: HHHHHHHHH")
+    console.log(alfa)
+  
+    
+    // Y = AX + B
+    
+    for (var index = 0; index < dadosCpu.length; index++) {
+      var input = {
+        x: dadosCpu[index],
+        y: dadosTemp[index],
+      };
+      dadosCorrelacao.push(input);
+    }
+    console.log("Dados Correlacao: ");
+    console.log(dadosCorrelacao);
+  
+    // regressão linear
+    var regressao = [];
+  
+  //   alert("TESTANDO MANIPULAR: " + dadosCorrelacao['x'][3])
+    
+    var yval = 0
+    for (let index = 0; index < dadosCorrelacao.length; index++) {
+      testeaa = dadosCorrelacao[index]
+      yval = alfa + beta * testeaa['x'];
+      regressao.push({x: testeaa['x'], y: yval})
+    }
+    console.log("REGRESSÃO: WWWWWWWWWW")
+    console.log(regressao)
+  
+    const mixedChart = new Chart(document.getElementById(`graficoTemperatura`), {
+        data: {
+            datasets: [{
+                type: 'scatter',
+                label: 'Correlação',
+                data: dadosCorrelacao,
+                backgroundColor: ["#6B6568"],
+            }, {
+                type: 'line',
+                label: 'Linha de tendencia',
+                data: regressao,
+                backgroundColor: 'green',
+                borderColor: 'green'
+            }],
+        },
+        options: {}
+    });
+    
+  }
