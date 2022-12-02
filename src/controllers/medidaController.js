@@ -47,6 +47,22 @@ function buscarComponentesMaquina(req, res){
 
 }
 
+function buscarMetricaKpi(req, res){
+    var fkComponente = req.params.fkComponente;
+    console.log("KAKAKAKAKKAKAKAAKAKAAKAKAKAKAKKAKKA" + fkComponente);
+    medidaModel.buscarMetricaKpi(fkComponente).then(function (resultado){
+        if(resultado.length > 0){
+            res.status(200).json(resultado);
+        } else {
+            res.status(204).send("Não foram encontrados componentes!");
+        }
+    }).catch(function (erro){
+        console.log(erro);
+        console.log("Houve um erro ao resgatar os dados da métrica!!!! Erro: "+ erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+}
+
 function buscarUltimosRegistros(req, res){
 
     const limite_linhas = 7;
@@ -333,8 +349,8 @@ module.exports = {
     qtdRegistrosPorUser,
     buscarUltimosRegistrosUser,
     buscarMonitorados,
-    correlacaoTempCPU
-    
+    correlacaoTempCPU,
+    buscarMetricaKpi
     // buscarUltimasMedidas,
     // buscarMedidasEmTempoReal
 

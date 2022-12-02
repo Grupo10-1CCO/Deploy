@@ -90,6 +90,21 @@ function buscarUltimosRegistros(idEmpresa, idMaquina, fkComponente, limite_linha
     return database.executar(query);
 }
 
+function buscarMetricaKpi(fkComponente){
+    var query = ''
+
+    if(process.env.AMBIENTE_PROCESSO == "producao") {
+        query = `select capturaMin, capturaMax from Metrica join componente on fkMetrica = idMetrica where idComponente = ${fkComponente};`
+    }
+    else {
+        console.log("\n O ambiente de produção (azure) não foi definido")
+        return
+    }
+
+    console.log("Executando a instrução SQL: \n" + query);
+    return database.executar(query);
+}
+
 function buscarRegistroTempoReal(idEmpresa, idMaquina, fkComponente) {
 
     var query = ''
@@ -368,7 +383,8 @@ module.exports = {
     buscarComponentesMaquinaPorUser,
     qtdRegistrosPorUser,
     buscarUltimosRegistrosUser,
-    correlacaoTempCPU
+    correlacaoTempCPU,
+    buscarMetricaKpi
     // buscarUltimasMedidas,
     // buscarMedidasEmTempoReal
 }
