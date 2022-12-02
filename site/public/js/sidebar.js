@@ -55,7 +55,7 @@ var idEmpresa = sessionStorage.ID_EMPRESA
 
                             var link = '';
 
-                            if(paginaAtual == "http://localhost:8080/dashboard/dashboard.html" || paginaAtual == "http://localhost:8080/dashboard/dashboard.html#"){
+                            if(paginaAtual == "https://samp-sptech-1cco.azurewebsites.net/dashboard/dashboard.html" || paginaAtual == "https://samp-sptech-1cco.azurewebsites.net/dashboard/dashboard.html#"){
                                 link = '#';
                             }else{
                                 link = 'dashboard.html';
