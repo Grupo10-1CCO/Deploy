@@ -55,13 +55,13 @@ var idEmpresa = sessionStorage.ID_EMPRESA
 
                             var link = '';
 
-                            if(paginaAtual == "https://samp-sptech-1cco.azurewebsites.net/dashboard/dashboard.html" || paginaAtual == "https://samp-sptech-1cco.azurewebsites.net/dashboard/dashboard.html#"){
+                            if(paginaAtual == "http://localhost:8080/dashboard/dashboard.html" || paginaAtual == "http://localhost:8080/dashboard/dashboard.html"){
                                 link = '#';
                             }else{
                                 link = 'dashboard.html';
                             }
                             
-                            ul_maquinas.innerHTML += `<li id="maquina${idMaquina}">
+                            maquinas_ul.innerHTML += `<li id="maquina${idMaquina}">
                             <a href='${link}' onclick="guardar(${idMaquina}), selecionarBotao('${idBotao}'), buscarInfoMaquina(${idMaquina}), gerar(${fkEmpresa},${idMaquina})"><img src="../assets/icons/server.png">${nomeMaquina}</a>
                         </li>`
                         }
