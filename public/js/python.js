@@ -15,7 +15,11 @@ function reset(){
     });
 }
 
-function chamarApi(link){
+function chamarApi(){
+
+    var link = document.getElementById("linkReclameaqui").value;
+
+    alert("TESTE 1:" + link)
 
     h2Cloud.style.display = 'block';
     h2Status.style.display = 'block';
@@ -34,8 +38,14 @@ function chamarApi(link){
     h2Cloud.innerHTML = "Realizando Scraping, por favor aguarde na página...";
     h2Status.innerHTML = "Realizando Scraping, por favor aguarde na página...";
 
-    fetch(`/scraper/scraper/${link}`, {
-        cache: 'no-store'
+    fetch("/scraper/rotaPython", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            linkSolicitado: link
+        })
     }).then(function (retorno){
         if(retorno.status == 204) {
 
@@ -56,6 +66,8 @@ function chamarApi(link){
 
             imgStatus.setAttribute("src", "../js/caca-reclamacao/Plots/piestautus.png");
             imgWordcloud.setAttribute("src", "../js/caca-reclamacao/Plots/wordcloud.png");
+        }else if(retorno.status == 400){
+            alert("eunaosei");
         }else{
             alert("deu ruim ai")
             alert("Parte 1: " + retorno)

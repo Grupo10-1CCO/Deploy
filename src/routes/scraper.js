@@ -3,7 +3,7 @@ var router = express.Router();
 
 var scraperControler = require("../controllers/scraperController");
 
-router.get("/scraper/:link", function (req, res){
+router.post("/rotaPython", function (req, res){
     scraperControler.chamarApi(req, res);
 });
 

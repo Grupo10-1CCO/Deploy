@@ -69,10 +69,11 @@
                 <div class="main_scraper">
                     <h1>Web Scraper - Reclame Aqui</h1>
                     <h3>Nessa página você poderá utilizar nosso Web Scraper do site Reclame Aqui, ao ser executado nosso scraper gera uma wordcloud com as palavras mais frequentes nas reclamações dos seus clientes e um gráfico simples que te informa qual o 'status' das reclamações. Para seu funcionamento, basta informar a página do reclame aqui de seu banco:</h3>
+                    <h4>Link Exemplo: www.reclameaqui.com.br/empresa/nome-da-sua-empresa/lista-reclamacoes/?busca=pix</h4>
 
                     <div class="campoLink">
-                        <input>
-                        <button onclick="chamarApi('teste')">Gerar</button>
+                        <input id="linkReclameaqui">
+                        <button onclick="chamarApi()">Gerar</button>
                     </div>
 
                     <div class="wordcloud">

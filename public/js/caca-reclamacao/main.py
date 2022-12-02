@@ -20,7 +20,7 @@ import subprocess
 import sys
 import cv2
 
-# link = cv2.imread(sys.argv[1])
+link = str(sys.argv[1])
 
 so = platform.system()
 
@@ -31,6 +31,7 @@ if so == 'Windows':
 elif so == 'Linux':
     user_agente = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
 
+print(f"LINK AQ: {link}")
 
 option = Options()
 option.add_argument("--headless")
@@ -52,7 +53,7 @@ r = 0
 rs = 0
 
 while i <= 25:
-    url_base = f"{link}{i}"
+    url_base = f"https://{link}&pagina={i}"
     driver.get(url=url_base)
     
     driver.get_screenshot_as_file("public/js/caca-reclamacao/screenshot.png")
