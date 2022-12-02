@@ -886,21 +886,21 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
     var dadosCpu = [];
     var dadosTemp = [];
     for (var i = 0; i < retorno.length; i++) {
-        console.log("RETORNO: plotarCorrelacaoTempCPU");
-        console.log(retorno);
-        if (idMaquina == retorno[i].idMaquina) {
-            var nomeComponente = retorno[i].nomeComponente;
-            var nomeSplit = nomeComponente.substring(0, 3);
-
-            if (nomeSplit == "Tem") {
-                console.log(dadosTemp);
-
-                dadosTemp.push(retorno[i].registro);
-            } else if (nomeSplit == "CPU") {
-                console.log(dadosCpu);
-                dadosCpu.push(retorno[i].registro);
-            }
+      console.log("RETORNO: plotarCorrelacaoTempCPU");
+      console.log(retorno);
+      if (idMaquina == retorno[i].idMaquina) {
+        var nomeComponente = retorno[i].nomeComponente;
+        var nomeSplit = nomeComponente.substring(0, 3);
+  
+        if (nomeSplit == "Tem") {
+          console.log(dadosTemp);
+  
+          dadosTemp.push(retorno[i].registro);
+        } else if (nomeSplit == "CPU") {
+          console.log(dadosCpu);
+          dadosCpu.push(retorno[i].registro);
         }
+      }
     }
     var areaTemperatura = document.getElementById("divGraficoTemperatura");
     document.getElementById("graficoTemperatura").remove();
@@ -908,104 +908,126 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
     canvasTemperatura.setAttribute("class", "cnvGrafico");
     canvasTemperatura.setAttribute("id", "graficoTemperatura");
     areaTemperatura.append(canvasTemperatura);
-
+  
     var dadosCorrelacao = [];
-
+  
     // Y = AX + B
     // x = cpu
     // y = temperatura
     // n = retorno.lenght
     // var a = dadosCorrelacao.length *
-
+  
     // ∑ x (somatória de X)
     var somatoriaX = 0;
     for (let index = 0; index < dadosCpu.length; index++) {
-        somatoriaX += dadosCpu[index]
+      somatoriaX += dadosCpu[index]
     }
     console.log("∑ x : " + somatoriaX)
-
+  
     // ∑ y (somatória de Y)
     var somatoriaY = 0;
     for (let index = 0; index < dadosTemp.length; index++) {
-        somatoriaY += dadosTemp[index]
+      somatoriaY += dadosTemp[index]
     }
     console.log("∑ y : " + somatoriaY)
-
+  
     // ∑ xy (somatória de XY)
     var somaXY = 0
-    for (let index = 0; index < dadosTemp.length; index++) {
-        somaXY += dadosCpu[index] * dadosTemp[index]
+    for(let index = 0; index < dadosTemp.length; index++){
+      somaXY += dadosCpu[index] * dadosTemp[index]
     }
     console.log("∑ xy : " + somaXY)
-
+  
     // ∑ x ** 2 
     var xQuadrado = 0;
     for (let index = 0; index < dadosCpu.length; index++) {
-        xQuadrado += (dadosCpu[index] ** 2)
+      xQuadrado += (dadosCpu[index] ** 2)
     }
     console.log("∑ X ** 2: " + xQuadrado)
-
+  
     // (∑ x) ** 2
     var xQuadradoElavadoA2 = xQuadrado ** 2
     console.log("(∑ X) ** 2: " + xQuadradoElavadoA2)
-
+    
     // n = quantidade de amaostras
     // retorno.length
-
+  
     // valor de beta
     var beta = (somaXY - (somatoriaX * somatoriaY / dadosCpu.length)) / (xQuadrado - (somatoriaX ** 2 / dadosCpu.length))
-
-    console.log("ALFA: PPPPPPPPPP")
+  
+    console.log("BETA: PPPPPPPPPP")
     console.log(beta)
-
+  
     // valor de alfa
     var alfa = dadosTemp[0] - beta * dadosCpu[0]
-    console.log("BETA: HHHHHHHHH")
+    console.log("ALFA: HHHHHHHHH")
     console.log(alfa)
-
-
+  
+    
     // Y = AX + B
-
+    
     for (var index = 0; index < dadosCpu.length; index++) {
-        var input = {
-            x: dadosCpu[index],
-            y: dadosTemp[index],
-        };
-        dadosCorrelacao.push(input);
+      var input = {
+        x: dadosCpu[index],
+        y: dadosTemp[index],
+      };
+      dadosCorrelacao.push(input);
     }
     console.log("Dados Correlacao: ");
     console.log(dadosCorrelacao);
-
+  
     // regressão linear
-    var regressao = [];
-
-    //   alert("TESTANDO MANIPULAR: " + dadosCorrelacao['x'][3])
-
-    var yval = 0
+    var regressaoY = [];
+    var regressaoX = [];
+  
+  
+  //   alert("TESTANDO MANIPULAR: " + dadosCorrelacao['x'][3])
+    
+    var yVal = 0
     for (let index = 0; index < dadosCorrelacao.length; index++) {
-        testeaa = dadosCorrelacao[index]
-        yval = alfa + beta * testeaa['x'];
-        regressao.push({ x: testeaa['x'], y: yval })
+      xVal = dadosCorrelacao[index]
+      yVal = alfa + beta * xVal['x'];
+      regressaoY.push(yVal.toFixed(0))
+      regressaoX.push(xVal['x'])
+  
     }
     console.log("REGRESSÃO: WWWWWWWWWW")
-    console.log(regressao)
-
-    const mixedChart = new Chart(document.getElementById(`graficoTemperatura`), {
-        data: {
-            datasets: [{
-                type: 'scatter',
-                label: 'Correlação',
-                data: dadosCorrelacao,
-                backgroundColor: ["#6B6568"],
-            }, {
-                type: 'line',
-                label: 'Linha de tendencia',
-                data: regressao,
-                backgroundColor: 'green',
-                borderColor: 'green'
-            }],
-        },
-        options: {}
-    });
-
-}
+    console.log(regressaoY)
+    console.log(regressaoX)
+  
+  //   const mixedChart = new Chart(document.getElementById(`graficoTemperatura`), {
+  //     data: {
+  //         datasets: [{
+  //             type: 'line',
+  //             label: 'Linha de tendencia',
+  //             data: regressaoY,
+  //             backgroundColor: 'green',
+  //             borderColor: 'green'
+  //         }],
+  //     },
+  //     options: {}
+  // });
+  
+  const dataTemp = {
+    labels: regressaoX,
+    datasets: [{
+      label: 'Linha de tendencia',
+      data: regressaoY,
+      fill: false,
+      backgroundColor: 'green',
+      borderColor: 'green',
+      tension: 0.1
+    }]
+  };
+  
+  const config2 = {
+    type: 'line',
+    data: dataTemp,
+  };
+  
+  var graficoMon = new Chart(
+    document.getElementById(`graficoTemperatura`),
+    config2
+  );
+    
+  }
