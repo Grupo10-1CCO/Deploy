@@ -107,6 +107,35 @@
         var cargoVar = slct_cargo.value;
         var senhaVar = senha_input.value;
         var confirmacaoSenhaVar = confirmacao_senha_input.value;
+        var idPipefy = null
+        const options = {
+                    method: 'POST',
+                    headers: {
+                      'accept': 'application/json',
+                      'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJ1c2VyIjp7ImlkIjozMDIwODY5MjUsImVtYWlsIjoiam9hby5jb25jZWljYW9Ac3B0ZWNoLnNjaG9vbCIsImFwcGxpY2F0aW9uIjozMDAyMDc0NzZ9fQ.SRZx-58-x8HKCSTanwLU7MzGVoenpQwrmFpDppWzJduSo8NDJKtAw65ECGCGWEOO_1SJ65LnacQmgQ0aEIunXA',
+                      'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                      query: 'query MyQuery {   pipe(id: "302763672") {     members {       user {         id         email       }     }   } }'
+                    })
+                  };
+
+                  fetch('https://api.pipefy.com/graphql', options)
+                    .then(response => response.json())
+                    .then(response => {
+
+                     
+                      var jArray = response.data.pipe.members
+
+                      for (let i = 0; i < jArray.length; i++) {
+                        if (jArray[i].user.email == emailUsuario) {
+                          idPipefy = jArray[i].user.id
+                        }
+
+
+                      }
+                    })
+                    .catch(err => console.error(err));
 
         if (nomeVar == "" && emailVar == "" && senhaVar == "" && confirmacaoSenhaVar == "") {
             validacao = false
@@ -186,25 +215,7 @@
             color: "#000000"
             });
         }
-        else if(emailVar.indexOf(".com") == -1){
-            validacao = false
-            const Toast = Swal.mixin({
-            toast: true,
-            position: "top",
-            showConfirmButton: false,
-            timer: 3000,
-            didOpen: (toast) => {
-            toast.addEventListener("mouseenter", Swal.stopTimer);
-            toast.addEventListener("mouseleave", Swal.resumeTimer);
-                },
-            });
-
-            Toast.fire({
-            icon: "error",
-            title: "Falta .com no email",
-            color: "#000000"
-            });
-        }
+        
         else if(senhaVar == ""){
             validacao = false
             const Toast = Swal.mixin({
@@ -295,7 +306,8 @@
                     nomeServer: nomeVar,
                     emailServer: emailVar,
                     senhaServer: senhaVar,
-                    cargoServer: cargoVar
+                    cargoServer: cargoVar,
+                    idPipefyServer: idPipefy
 
                 })
             }).then(function (resposta) {

@@ -106,18 +106,18 @@ function cadastrar(nome, email, senha, fkEmpresa, cargo, idPipefy) {
     return database.executar(instrucao);
 }
 
-function cadastrarUsuario(nome, email, senha, idEmpresa, cargo) {
-    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha, idEmpresa, cargo);
+function cadastrarUsuario(nome, email, senha, idEmpresa, cargo, idPipefy) {
+    console.log("ACESSEI O USUARIO MODEL \n \n\t\t >> Se aqui der erro de 'Error: connect ECONNREFUSED',\n \t\t >> verifique suas credenciais de acesso ao banco\n \t\t >> e se o servidor de seu BD está rodando corretamente. \n\n function cadastrar():", nome, email, senha, idEmpresa, cargo, idPipefy);
 
     var instrucao = ``;
 
     if (process.env.AMBIENTE_PROCESSO == "producao") {
         instrucao = `
-            INSERT INTO Usuario (nome, email, senha, fkEmpresa, cargo) VALUES ('${nome}', '${email}', HashBytes('MD5', '${senha}'), ${idEmpresa}, '${cargo}');
+            INSERT INTO Usuario (nome, email, senha, fkEmpresa, cargo, idPipefy) VALUES ('${nome}', '${email}', HashBytes('MD5', '${senha}'), ${idEmpresa}, '${cargo}', '${idPipefy}');
         `;
     }else if(process.env.AMBIENTE_PROCESSO == "desenvolvimento"){
         instrucao = `
-            INSERT INTO Usuario (nome, email, senha, fkEmpresa, cargo) VALUES ('${nome}', '${email}', MD5('${senha}'), ${idEmpresa}, '${cargo}');
+            INSERT INTO Usuario (nome, email, senha, fkEmpresa, cargo, idPipefy) VALUES ('${nome}', '${email}', MD5('${senha}'), ${idEmpresa}, '${cargo}', '${idPipefy}');
         `;
     }else{
         console.log("\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n");

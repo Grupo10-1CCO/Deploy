@@ -167,6 +167,7 @@ function cadastrarUsuario(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var idEmpresa = req.body.idEmpresaServer;
+    var idPipefy = req.body.idEmpresaServer
     
 
     // Faça as validações dos valores
@@ -179,7 +180,7 @@ function cadastrarUsuario(req, res) {
     }else {
 
         // Passe os valores como parâmetro e vá para o arquivo usuarioModel.js
-        usuarioModel.cadastrarUsuario(nome, email, senha, idEmpresa, cargo)
+        usuarioModel.cadastrarUsuario(nome, email, senha, idEmpresa, cargo, idPipefy)
             .then(
                 function (resultado) {
                     res.json(resultado);
@@ -196,7 +197,6 @@ function cadastrarUsuario(req, res) {
             );
     }
 }
-
 function cadastrarEmpresa(req, res){
     var nomeEmpresa = req.body.nomeEmpresaServer;
     var emailEmpresa = req.body.emailEmpresaServer;
