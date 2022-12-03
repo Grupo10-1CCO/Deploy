@@ -3,12 +3,12 @@
 apt-get -y install libcurl4-openssl-dev
 apt-get -y install libxml2-dev
 apt-get -y install libssl-dev
+apt install libffi-dev
 
 apt-get update
 apt-get -y install software-properties-common
-apt-get -y install python3.8
 
-python3 get-pip.py
+apt-get -y install python3-pip
 
 apt install -y r-base
 
