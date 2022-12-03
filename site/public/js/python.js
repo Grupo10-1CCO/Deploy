@@ -19,7 +19,7 @@ function chamarApi(){
 
     var link = document.getElementById("linkReclameaqui").value;
 
-    alert("TESTE 1:" + link)
+    // alert("TESTE 1:" + link)
 
     h2Cloud.style.display = 'block';
     h2Status.style.display = 'block';
