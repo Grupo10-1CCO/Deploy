@@ -6,10 +6,10 @@
 
 import os
 
-os.system("python3 -m pip install selenium")
-os.system("python3 -m pip install bs4")
-os.system("python3 -m pip install webdriver_manager")
-os.system("python3 -m pip install rpy2")
+# os.system("python3 -m pip install selenium")
+# os.system("python3 -m pip install bs4")
+# os.system("python3 -m pip install webdriver_manager")
+# os.system("python3 -m pip install rpy2")
 
 from time import sleep
 from selenium import webdriver
@@ -41,9 +41,9 @@ utilsr = importr('utils')
 utilsr.chooseCRANmirror(ind=1)
 pacotes = ["tm", "wordcloud2", "webshot2", "ggplot2", "dplyr", "grDevices"]
 
-os.system("apt-get install libxml2-dev")
-os.system("apt-get install libcurl4-openssl-dev")
-os.system("apt-get install libssl-dev")
+# os.system("apt-get install libxml2-dev")
+# os.system("apt-get install libcurl4-openssl-dev")
+# os.system("apt-get install libssl-dev")
 
 pacotes_nao_instalados = [pacote for pacote in pacotes if not pacotesr.isinstalled(pacote)]
 if len(pacotes_nao_instalados) > 0:
