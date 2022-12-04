@@ -123,6 +123,28 @@
 
 var idUsuario = sessionStorage.USUARIO_ANALISE
 var idMaquina = sessionStorage.ID_MAQUINA
+var nome;
+var email;
+var cargo;
+
+fetch(`/usuarios/dadosUsuario/${idUsuario}`, {
+        cache: 'no-store'
+    }).then(function (resposta) {
+        
+        if (resposta.ok) {
+            resposta.json().then(function (retorno) {
+                console.log(`Dados recebidos: ${JSON.stringify(retorno)}`);
+                console.log(retorno)              
+                nome = retorno[0].nome
+                nome_usuario.innerHTML = nome;
+                email = retorno[0].email;
+                cargo = retorno[0].cargo;
+            });
+
+        } else {
+            console.error('Nada foi encontrado!');
+        }
+    });
 fetch("/medidas/buscarServidores", {
         method: "POST",
         headers: {
@@ -266,7 +288,7 @@ fetch('https://api.pipefy.com/graphql', options)
 
     function gerarPdf(){
         var doc = new jsPDF()
-        doc.text('Hello World', 10, 10)
+        doc.text('Hello World', 100, 10)
 
         var data = new Date();
         var dia = String(data.getDate()).padStart(2, '0');
