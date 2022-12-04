@@ -1094,3 +1094,34 @@ input {
         background-color: var(--preto-menu-div);
     }
 }
+
+/* Parte Leo */
+/* Velocidade de internet */
+#area_internet{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 93.5%;
+    height: 35%;
+    background-color: var(--preto-menu-div);
+    padding-bottom: 15vh;
+  }
+  
+  #graficoInternet{
+    height: 100%;
+    width: 100%;
+    min-height: 530px;
+  }
+  
+  /* Div "divDwnld à esquerda da Div "areaInternet" */
+  #divDnwld{
+    /* display: flex; */
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 93.5%;
+    height: 35%;
+    background-color: var(--preto-menu-div);
+    padding-bottom: 15vh;
+  }

@@ -195,6 +195,7 @@ function gerar(idEmpresa, idMaquina) {
                     console.log(`Dados recebidos: ${JSON.stringify(retorno)}`);
                     configurarGraficoMon(retorno, idComponente);
 
+
                     console.log("Valor final disco: " + quantidadeDiscos);
 
                     if (quantidadeDiscos >= 2) {
@@ -230,6 +231,10 @@ function gerar(idEmpresa, idMaquina) {
         // gradient.addColorStop(1, 'rgba(214, 31, 31, 0)');
 
         var nomeComponente = retorno[0].nomeComponente;
+        if(nomeComponente == 'redeDwnl' || nomeComponente == 'redeUpld'){
+           plotarGraficoVelocidadeInternet(nomeComponente, retorno[0].idMaquina) 
+        }
+        
         var nomeSplit = nomeComponente.substring(0, 3);
 
         if (nomeSplit == "CPU" || nomeSplit == "RAM" || nomeSplit == "Tem") {
@@ -1031,3 +1036,428 @@ function plotarGraficoCorrelacaoTempCPU(retorno, idMaquina) {
   );
     
   }
+
+    // Projeto Leo (Velocidade Internet)
+
+var valorDwnl = 0;
+var valorUpld = 0;
+
+function plotarGraficoVelocidadeInternet(nomeComponente, idMaquina) {
+  fetch(`/medidas/redeDownload/${nomeComponente}/${idMaquina}`, {
+    cache: 'no-store'
+  }).then(function(retornoDwnl) {
+    if (retornoDwnl.ok) {
+      retornoDwnl.json().then(function(resposta) {
+        console.log("novo dado recebido" + JSON.stringify(resposta))
+        if(resposta[0].nomeComponente == 'redeDwnl'){
+            valorDwnl = resposta[0].registro
+        } else{
+            valorUpld = resposta[0].registro
+        }
+        
+        let chartConfig = {
+            type: 'gauge',
+            theme: 'classic',
+            alpha: 1,
+            backgroundColor: '#161616',
+            // refresh: {
+            //     type: 'feed',
+            //     transport: 'js',
+            //     url: attVelocidadeInternetDwnld(nomeComponente, idMaquina),
+            //     interval: 200,
+            //     maxTicks: 20,
+            //     adjustScale: true,
+            //     resetTimeout: 60,
+            //   },
+            plot: {
+              tooltip: {
+                backgroundColor: 'black',
+              },
+              backgroundColor: '#161616',
+            },
+            plotarea: {
+              margin: '0 0 0 0',
+            },
+            scale: {
+              sizeFactor: 1.25,
+              offsetY: '60px',
+            },
+            scaleR: {
+              values: '0:100:10',
+              backgroundColor: '#1616,#fff',
+              borderColor: '#b3b3b3',
+              borderWidth: '2px',
+              ring: {
+                offsetR: '130px',
+                rules: [
+                  {
+                    backgroundColor: '#FB0A02',
+                    rule: '%v >=0 && %v < 20',
+                  },
+                  {
+        
+                    backgroundColor: '#EC7928',
+                    rule: '%v >= 20 && %v < 40',
+                  },
+                  {
+                    backgroundColor: '#FAC100',
+                    rule: '%v >= 40 && %v < 60',
+                  },
+                  {
+                    backgroundColor: '#B1AD00',
+                    rule: '%v >= 60 && %v < 80',
+                  },
+                  {
+                    backgroundColor: '#348D00',
+                    rule: '%v >= 80',
+                  },
+                ],
+                size: '10px',
+              },
+            },
+            labels: [
+              {
+                id: 'lbl1',
+                text: 'Muito rápido', 
+                tooltip: {
+                  text: '< 80 <br>Mbps',
+                  backgroundColor: '#237b00',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#348D00',
+                offsetX: '160px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl2',
+                text: 'Rápido',
+                tooltip: {
+                  text: '> 60 < 80<br>Mbps',
+                  backgroundColor: '#a09c00',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#B1AD00',
+                offsetX: '80px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl3',
+                text: 'Médio',
+                tooltip: {
+                  text: '> 40 < 60<br>Mbps',
+                  backgroundColor: '#e9b000',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#FAC100',
+                offsetX: '0px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl4',
+                text: 'Lento',
+                tooltip: {
+                  text: '> 20 < 40<br>Mbps',
+                  backgroundColor: '#da6817',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#EC7928',
+                offsetX: '-80px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl5',
+                text: 'Muito lento',
+                tooltip: {
+                  text: '< 20<br>Mbps',
+                  backgroundColor: '#ea0901',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#FB0A02',
+                offsetX: '-160px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+            ],
+            series: [
+              {
+                values: [valorDwnl],
+                animation: {
+                  effect: 'ANIMATION_EXPAND_VERTICAL',
+                  method: 'ANIMATION_REGULAR_EASE_OUT',
+                  speed: 2500,
+                },
+              },
+            ],
+          };
+          let chartConfig1 = {
+            type: 'gauge',
+            theme: 'classic',
+            alpha: 1,
+            backgroundColor: '#161616',
+            // refresh: {
+            //     type: 'feed',
+            //     transport: 'js',
+            //     url: attVelocidadeInternetDwnld(nomeComponente, idMaquina),
+            //     interval: 200,
+            //     maxTicks: 20,
+            //     adjustScale: true,
+            //     resetTimeout: 60,
+            //   },
+            plot: {
+              tooltip: {
+                backgroundColor: 'black',
+              },
+              backgroundColor: '#161616',
+            },
+            plotarea: {
+              margin: '0 0 0 0',
+            },
+            scale: {
+              sizeFactor: 1.25,
+              offsetY: '60px',
+            },
+            scaleR: {
+              values: '0:100:10',
+              backgroundColor: '#1616,#fff',
+              borderColor: '#b3b3b3',
+              borderWidth: '2px',
+              ring: {
+                offsetR: '130px',
+                rules: [
+                  {
+                    backgroundColor: '#FB0A02',
+                    rule: '%v >=0 && %v < 20',
+                  },
+                  {
+        
+                    backgroundColor: '#EC7928',
+                    rule: '%v >= 20 && %v < 40',
+                  },
+                  {
+                    backgroundColor: '#FAC100',
+                    rule: '%v >= 40 && %v < 60',
+                  },
+                  {
+                    backgroundColor: '#B1AD00',
+                    rule: '%v >= 60 && %v < 80',
+                  },
+                  {
+                    backgroundColor: '#348D00',
+                    rule: '%v >= 80',
+                  },
+                ],
+                size: '10px',
+              },
+            },
+            labels: [
+              {
+                id: 'lbl1',
+                text: 'Muito rápido', 
+                tooltip: {
+                  text: '< 80 <br>Mbps',
+                  backgroundColor: '#237b00',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#348D00',
+                offsetX: '160px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl2',
+                text: 'Rápido',
+                tooltip: {
+                  text: '> 60 < 80<br>Mbps',
+                  backgroundColor: '#a09c00',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#B1AD00',
+                offsetX: '80px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl3',
+                text: 'Médio',
+                tooltip: {
+                  text: '> 40 < 60<br>Mbps',
+                  backgroundColor: '#e9b000',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#FAC100',
+                offsetX: '0px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl4',
+                text: 'Lento',
+                tooltip: {
+                  text: '> 20 < 40<br>Mbps',
+                  backgroundColor: '#da6817',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#EC7928',
+                offsetX: '-80px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+              {
+                id: 'lbl5',
+                text: 'Muito lento',
+                tooltip: {
+                  text: '< 20<br>Mbps',
+                  backgroundColor: '#ea0901',
+                  padding: '10px',
+                  shadow: false,
+                },
+                anchor: 'c',
+                backgroundColor: '#FB0A02',
+                offsetX: '-160px',
+                padding: '10px',
+                textAlign: 'center',
+                width: '80px',
+                x: '50%',
+                y: '90%',
+              },
+            ],
+            series: [
+              {
+                values: [valorUpld],
+                animation: {
+                  effect: 'ANIMATION_EXPAND_VERTICAL',
+                  method: 'ANIMATION_REGULAR_EASE_OUT',
+                  speed: 2500,
+                },
+              },
+            ],
+          };
+          zingchart.render({
+            id: 'graficoInternetDw',
+            data: chartConfig,
+            height: '50%',
+            width: '50%',
+          });
+          zingchart.render({
+            id: 'graficoInternetUp',
+            data: chartConfig1,
+            height: '50%',
+            width: '50%',
+          });
+
+          setInterval(() => {
+            // let colors = ['#00AE4D', '#E2D51A', '#FB301E'];
+            // let Marker = (bgColor, ceiling) => {
+            //   return {
+            //     type: 'area',
+            //     range: [0, ceiling],
+            //     backgroundColor: bgColor,
+            //     alpha: 0.95,
+            //   };
+            // };
+            let output0 = 0;
+            let output1 = 0;
+            fetch(`/medidas/redeDownload/${nomeComponente}/${idMaquina}`, {
+                cache: 'no-store'
+              }).then(function(retornoDwnl) {
+                if (retornoDwnl.ok) {
+                  retornoDwnl.json().then(function(resposta) {
+                    console.log("novo dado recebido" + JSON.stringify(resposta))
+                    if(resposta[0].nomeComponente == 'redeDwnl'){
+                        valorDwnl = resposta[0].registro
+                    } else{
+                        valorUpld = resposta[0].registro
+                    }
+                    output0 = valorDwnl
+                    output1 = valorUpld
+                    console.log(output0)
+                    zingchart.exec('graficoInternetDw', 'appendseriesdata', {
+                        graphid: 0,
+                        plotindex: 0,
+                        update: false,
+                        data: {
+                          values: [output0],
+                        },
+                      });
+                      zingchart.exec('graficoInternetUp', 'appendseriesdata', {
+                        graphid: 0,
+                        plotindex: 0,
+                        update: false,
+                        data: {
+                          values: [output1],
+                        },
+                      });
+                     
+                      // 2) update guage markers
+                    //   zingchart.exec('graficoInternet', 'modify', {
+                    //     graphid: 0,
+                    //     update: false,
+                    //     data: {
+                    //       scaleR: {
+                    //         markers: [Marker(colors[0], output0)],
+                    //       },
+                    //     },
+                    //   });
+                     
+                      // batch update all chart modifications
+                      zingchart.exec('graficoInternetDw', 'update');
+                      zingchart.exec('graficoInternetUp', 'update');
+                })
+              }
+              });
+            // 1) update gauge values
+
+          }, 5000);
+    })
+  }
+  });
+}
