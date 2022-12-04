@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript --vanilla
 
 # CONSERTAR
-setwd('E:/Users/Danyl/Documents/GitHub/Projeto SAMP/Deploy/public/js/caca-reclamacao')
+setwd('/site/public/js/caca-reclamacao')
 
 library(tm)
 library(wordcloud2)

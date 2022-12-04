@@ -16,6 +16,7 @@ function guardar(idMaquina) {
 }
 
 function selecionarBotao(idBotao) {
+
     var ulMaquinas = document.getElementById("ul_maquinas");
     let elementosFilhos = ulMaquinas.children;
     for(var i = 0; i < elementosFilhos.length; i++){
@@ -55,7 +56,7 @@ var idEmpresa = sessionStorage.ID_EMPRESA
 
                             var link = '';
 
-                            if(paginaAtual == "http://localhost:8080/dashboard/dashboard.html" || paginaAtual == "http://localhost:8080/dashboard/dashboard.html/dashboard.html#"){
+                            if(paginaAtual == "http://localhost:8080/dashboard/dashboard.html" || paginaAtual == "http://localhost:8080/dashboard/dashboard.html#"){
                                 link = '#';
                             }else{
                                 link = 'dashboard.html';
