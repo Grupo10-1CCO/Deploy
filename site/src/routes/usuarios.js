@@ -45,4 +45,8 @@ router.post("/autenticar", function (req, res) {
     usuarioController.entrar(req, res);
 });
 
+router.get("/dadosUsuario/:idUsuario", function (req, res) {
+    usuarioController.buscarDadosUsuario(req, res);
+});
+
 module.exports = router;

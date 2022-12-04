@@ -81,6 +81,8 @@ function entrar(req, res) {
 
 }
 
+
+
 function validarEmailEmpresa(req, res){
 
     var emailEmpresa = req.params.emailEmpresa;
@@ -167,7 +169,7 @@ function cadastrarUsuario(req, res) {
     var email = req.body.emailServer;
     var senha = req.body.senhaServer;
     var idEmpresa = req.body.idEmpresaServer;
-    var idPipefy = req.body.idEmpresaServer
+    var idPipefy = req.body.idPipefyServer;
     
 
     // Faça as validações dos valores
@@ -184,6 +186,7 @@ function cadastrarUsuario(req, res) {
             .then(
                 function (resultado) {
                     res.json(resultado);
+                    console.log(idPipefy)
                 }
             ).catch(
                 function (erro) {
@@ -250,7 +253,23 @@ function selecionarUltimaEmpresa(req, res){
     )
 
 }
+function buscarDadosUsuario(req, res){
 
+    var idUsuario = req.params.idUsuario;
+
+    usuarioModel.buscarDadosUsuario(idUsuario).then(function (resultado){
+        if(resultado.length > 0){
+            res.status(200).json(resultado);
+        }else{
+            res.status(204).send("Email válido!");
+        }
+    }).catch(function (erro){
+        console.log(erro);
+        console.log("Houve um erro ao resgatar o dados do usuário! Erro: " + erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    });
+
+}
 module.exports = {
     entrar,
     validarEmailEmpresa,
@@ -261,5 +280,6 @@ module.exports = {
     selecionarUltimaEmpresa,
     listar,
     testar,
-    buscarFuncionarios
+    buscarFuncionarios,
+    buscarDadosUsuario
 }
