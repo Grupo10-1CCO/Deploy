@@ -869,7 +869,7 @@ input {
       }
 
       #correlacaoTempCpu{
-        font-size: 5vw;
+        font-size: 3vw;
         padding: 2vw;
       }
 }
@@ -885,10 +885,23 @@ input {
         justify-content: center;
         align-items: center;
         background-color: var(--preto-menu-div);
-        width: 12vw;
+        width: 15vw;
         height: 100vh;
         float: left;
         border-right: 0.1px solid white;
+      }
+
+      #funcionarios{
+        font-size: 2vh;
+      }
+
+      #nome_empresa{
+        font-size: 3.5vh;
+      }
+
+      #correlacaoTempCpu{
+        font-size: 3vw;
+        padding: 2vw;
       }
 
 }
