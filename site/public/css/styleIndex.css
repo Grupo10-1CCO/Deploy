@@ -604,6 +604,7 @@ a {
     
     .header{
         justify-content: space-around;
+        height: auto;
     }
 
     .header_box{
@@ -637,7 +638,7 @@ a {
     
     .banner{
         width: 100%;
-        height: 265px;
+        height: 210px;
     }
 
     .barra_horizontal{
@@ -647,7 +648,7 @@ a {
     /* Area Solucao */
 
     .solucao{
-        height: 650px;
+        height: 940px;
         align-items: center;
         justify-content: center;
         display: flex;
@@ -712,7 +713,7 @@ a {
     /* Area Parceiros */
 
     .parceiros{
-        height: 500px;
+        height: 850px;
     }
 
     .parceiros_titulo{
@@ -734,9 +735,14 @@ a {
         flex-direction: column;
     }
 
+    .parceiros_img{
+        height: 100px;
+        width: 100px;
+    }
+
     /* Area Planos */
     .planos{
-        height: 820px;
+        height: 1200px;
     }
 
     .planos_titulo_principal{
@@ -758,15 +764,15 @@ a {
     }
 
     .planos_titulo{
-        font-size: 4vh;
-    }
-
-    .planos_preco{
         font-size: 3vh;
     }
 
+    .planos_preco{
+        font-size: 2vh;
+    }
+
     .planos_img{
-        height: 2vh;
+        height: 1vh;
     }
 
     .planos_texto{
@@ -783,7 +789,7 @@ a {
     /* Area Contato */
     .contato{
         flex-direction: column;
-        height: 650px;
+        height: 950px;
     }
 
     .contato_left{
@@ -792,7 +798,7 @@ a {
     }
 
     .contato_left_titulo{
-        font-size: 3.5vh;
+        font-size: 2.8vh;
     }
 
     .contato_left_img{
@@ -852,11 +858,11 @@ a {
 
 
 /* Celulares Modernos */
-/*
-@media (max-width: 768px){
 
+@media (max-width: 768px){
+    
 }
-*/
+
 
 /* Notebooks e Computadores */
 /*

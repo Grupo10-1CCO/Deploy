@@ -10,6 +10,35 @@ function botaoMenu(){
     }
 }
 
+function permissoesAcesso(){
+    var cargo = sessionStorage.CARGO_USUARIO;
+
+    if(cargo == 'Responsável'){
+        liAnalise.style.display = 'flex';
+        liScraper.style.display = 'flex';
+        liFuncionarios.style.display = 'flex';
+        liMetricas.style.display = 'flex';
+    }else if(cargo == 'Gestor'){
+        liAnalise.style.display = 'none';
+        liScraper.style.display = 'none';
+        liFuncionarios.style.display = 'flex';
+        liMetricas.style.display = 'flex';
+    }else if(cargo == 'Analista'){
+        liAnalise.style.display = 'flex';
+        liScraper.style.display = 'flex';
+        liFuncionarios.style.display = 'none';
+        liMetricas.style.display = 'none';
+    }else if(cargo == 'Técnico'){
+        liAnalise.style.display = 'none';
+        liScraper.style.display = 'none';
+        liFuncionarios.style.display = 'none';
+        liMetricas.style.display = 'none';
+    }else{
+        alert('Falha na validação do cargo!');
+        window.location = '../login.html';
+    }
+}
+
 function guardar(idMaquina) {
     sessionStorage.ID_MAQUINA = idMaquina;
     sessionStorage.BOT_SELECIONADO = `maquina${idMaquina}`;
