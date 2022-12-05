@@ -1,7 +1,7 @@
 #!/usr/bin/env Rscript --vanilla
 
 # CONSERTAR
-setwd('/site/public/js/caca-reclamacao')
+setwd('/home/ubuntu/Desktop/site_deploy/Deploy/site/public/js/caca-reclamacao')
 
 library(tm)
 library(wordcloud2)
@@ -10,10 +10,12 @@ library(ggplot2)
 library(dplyr)
 library(grDevices)
 
-webshot::install_phantomjs()
+# webshot2::install_phantomjs()
 
-words_scraper <- read.csv("words_scraper.csv")
-status_scraper <- read.csv("status_scraper.csv")
+getwd()
+
+words_scraper <- read.csv('words_scraper.csv')
+status_scraper <- read.csv('status_scraper.csv')
 
 palavras <- Corpus(VectorSource(words_scraper$Palavra))
 
