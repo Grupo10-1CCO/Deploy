@@ -1385,13 +1385,13 @@ function plotarGraficoVelocidadeInternet(nomeComponente, idMaquina) {
             id: 'graficoInternetDw',
             data: chartConfig,
             height: '50%',
-            width: '50%',
+            width: '90%',
           });
           zingchart.render({
             id: 'graficoInternetUp',
             data: chartConfig1,
             height: '50%',
-            width: '50%',
+            width: '90%',
           });
 
           setInterval(() => {
