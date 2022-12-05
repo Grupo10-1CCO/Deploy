@@ -84,7 +84,7 @@
                     <input type="password" id="senha_input">
                     Repita a senha:
                     <input type="password" id="confirmacao_senha_input">
-                    <button class="botao_cadastrar" onclick="cadastrarUser()">Cadastrar</button>
+                    <button class="botao_cadastrar" onclick="receberIdPipefy()">Cadastrar</button>
                 </div>
 
             </div>
@@ -98,19 +98,9 @@
 <script src="../js/funcoes.js"></script>
 <script src="../js/sidebar.js"></script>
 <script>
-    function cadastrarUser() {
-        var validacao = true;
-
-        //Recupere o valor da nova input pelo nome do id
-        // Agora vá para o método fetch logo abaixo
-        var idEmpresa = sessionStorage.ID_EMPRESA;
-        console.log(idEmpresa + 'to aq')
-        var nomeVar = nome_input.value;
-        var emailVar = email_input.value;
-        var cargoVar = slct_cargo.value;
-        var senhaVar = senha_input.value;
-        var confirmacaoSenhaVar = confirmacao_senha_input.value;
-        var idPipefy = null
+    var idPipefy = null;
+    function receberIdPipefy(){
+        
         const options = {
                     method: 'POST',
                     headers: {
@@ -131,15 +121,32 @@
                       var jArray = response.data.pipe.members
 
                       for (let i = 0; i < jArray.length; i++) {
-                        if (jArray[i].user.email == emailUsuario) {
+                        if (jArray[i].user.email == email_input.value) {
                           idPipefy = jArray[i].user.id
-                        }
-
+                          
+                        }   
+                        
 
                       }
+                      cadastrarUser()
                     })
                     .catch(err => console.error(err));
+    }
 
+    function cadastrarUser() {
+        var validacao = true;
+
+        //Recupere o valor da nova input pelo nome do id
+        // Agora vá para o método fetch logo abaixo
+        var idEmpresa = sessionStorage.ID_EMPRESA;
+        console.log(idEmpresa + 'to aq')
+        var nomeVar = nome_input.value;
+        var emailVar = email_input.value;
+        var cargoVar = slct_cargo.value;
+        var senhaVar = senha_input.value;
+        var confirmacaoSenhaVar = confirmacao_senha_input.value;
+        
+                    
         if (nomeVar == "" && emailVar == "" && senhaVar == "" && confirmacaoSenhaVar == "") {
             validacao = false
             const Toast = Swal.mixin({
@@ -297,6 +304,7 @@
             });
         }
         if(validacao) {
+            console.log('meusenhor' + idPipefy)
             fetch("/usuarios/cadastrarUsuario", {
                 method: "POST",
                 headers: {
@@ -337,9 +345,9 @@
                     color: "#000000"
                     });
 
-
+console.log(idPipefy + "aiaiaiai")
                     limparFormulario();
-
+                    
                 } else {
                     throw ("Houve um erro ao tentar realizar o cadastro!");
                 }
@@ -353,6 +361,7 @@
 
 
         return false;
+        
     }
 
 

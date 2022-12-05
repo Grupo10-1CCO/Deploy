@@ -76,4 +76,8 @@ router.get("/correlacaoTempCPU/:idMaquina", function(req, res){
     medidaController.correlacaoTempCPU(req, res);
 });
 
+router.get("/redeDownload/:nomeComponente/:idMaquina", function (req, res){
+    medidaController.redeDownload(req, res);
+});
+
 module.exports = router;

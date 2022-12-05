@@ -334,6 +334,28 @@ function correlacaoTempCPU(req, res){
     })
 }
 
+function redeDownload(req, res) {
+    var nomeComp = req.params.nomeComponente;
+    var idMaq = req.params.idMaquina;
+    
+    console.log('aosidjaosi' + idMaq)
+    console.log('aosidjaosi' + nomeComp)
+
+
+
+    medidaModel.redeDownload(nomeComp, idMaq).then(function (resultado){
+        if(resultado.length > 0){
+            res.status(200).json(resultado);
+        }else{
+            res.status(204).send("Não foi encontrado dados de rede")
+        }
+    }).catch(function (erro){
+        console.log(erro);
+        console.log("Houve um erro ao tentar resgatar os dados de rede! Erro: " + erro.sqlMessage);
+        res.status(500).json(erro.sqlMessage);
+    })
+}
+
 module.exports = {
     buscarMaquinas,
     buscarUltimosRegistros,
@@ -350,7 +372,8 @@ module.exports = {
     buscarUltimosRegistrosUser,
     buscarMonitorados,
     correlacaoTempCPU,
-    buscarMetricaKpi
+    buscarMetricaKpi,
+    redeDownload
     // buscarUltimasMedidas,
     // buscarMedidasEmTempoReal
 

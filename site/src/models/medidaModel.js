@@ -306,6 +306,26 @@ function correlacaoTempCPU(idMaquina) {
     return database.executar(query);
 }
 
+function redeDownload(nomeComponente, idMaquina) {
+    var query = "";
+  
+    if (process.env.AMBIENTE_PROCESSO == "producao") {
+      query = `SELECT TOP 1 * FROM DadosServidor 
+      WHERE nomeComponente = '${nomeComponente}' AND idMaquina = ${idMaquina} ORDER BY idRegistro DESC;`
+    } else if (process.env.AMBIENTE_PROCESSO == "desenvolvimento") {
+      query = `SELECT * FROM DadosServidor 
+      WHERE nomeComponente = '${nomeComponente}' AND idMaquina = ${idMaquina} ORDER BY idRegistro DESC LIMIT 1;`
+    } else {
+      console.log(
+        "\nO AMBIENTE (produção OU desenvolvimento) NÃO FOI DEFINIDO EM app.js\n"
+      );
+      return;
+    }
+  
+      console.log("Executando a instrução SQL: \n" + query);
+      return database.executar(query);
+  }
+
 // function buscarUltimasMedidas(idAquario, limite_linhas) {
 
 //     instrucaoSql = ''
@@ -384,7 +404,8 @@ module.exports = {
     qtdRegistrosPorUser,
     buscarUltimosRegistrosUser,
     correlacaoTempCPU,
-    buscarMetricaKpi
+    buscarMetricaKpi,
+    redeDownload
     // buscarUltimasMedidas,
     // buscarMedidasEmTempoReal
 }
