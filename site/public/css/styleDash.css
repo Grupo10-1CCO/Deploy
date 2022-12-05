@@ -853,6 +853,7 @@ input {
 
 
 Para telas menores que 768px */
+/* 
 @media (max-width: 768px){
     .menu {
         top: 0;
@@ -881,8 +882,9 @@ Para telas menores que 768px */
         padding: 2vw;
       }
 }
-
+*/
 /* Para telas maiores que 768px */
+/*
 @media (min-width: 768px){
     .menu {
         top: 0;
@@ -898,9 +900,10 @@ Para telas menores que 768px */
         border-right: 0.1px solid white;
       }
 }
-
+*/
 /* Parte Leo */
 /* Velocidade de internet */
+/*
 #area_internet{
   display: flex;
   align-items: center;
@@ -917,10 +920,14 @@ Para telas menores que 768px */
   width: 100%;
   min-height: 530px;
 }
+*/
 
 /* Div "divDwnld à esquerda da Div "areaInternet" */
+/*
 #divDnwld{
-  /* display: flex; */
+
+*/
+  /* display: flex; 
   align-items: center;
   flex-direction: column;
   justify-content: space-around;
@@ -929,3 +936,5 @@ Para telas menores que 768px */
   background-color: var(--preto-menu-div);
   padding-bottom: 15vh;
 }
+
+*/
