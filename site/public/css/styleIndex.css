@@ -601,208 +601,67 @@ a {
 
 /* Notebooks e Computadores */
 
-@media (min-width: 768px){
-    .header{
-        justify-content: space-between;
-    }
-    
-    .header_box{
-        display: none;
-    }
+ @media (min-width: 768px){
 
-    .header_botao{
-        width: 30vw;
-    }
-
-    .header_img{
-        height: auto;
+    .header_box {
+        height: 100%;
         width: 50%;
-    }
-
-    .header_logo{
         display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
         align-items: center;
     }
 
-    .header_botao{
+
+    .header_botao {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 60%;
         width: 40%;
-        font-size: 8px;
-        height: 45%;
+        font-family: 'Inter', sans-serif;
+        font-size: 90%;
+        color: white;
+        font-weight: 700;
+        background-color: #4D9E41;
+        border: 2px solid #4D9E41;
+        border-radius: 10px;
     }
 
     .botoes{
-        width: 40%;
-        justify-content: space-around;
-        margin-right: 10px;
-    }
-    
-    .banner{
-        width: 100vw;
-        height: 565px;
-    }
-
-    .barra_horizontal{
-        font-size: 3vh;
-    }
-
-    /* Area Solucao */
-
-    .solucao{
-        height: 180vh;
-        align-items: center;
-        justify-content: center;
+        height: 100%;
+        width: 30%;
         display: flex;
-        width: 100%;
-    }
-
-    .solucao_titulo{
-        margin-top: 30px;
-        font-size: 5vh;
-        border-bottom: #4D9E41 2px solid;
-        padding: 5px;
-    }
-
-    .solucao_frase{
-        font-size: 15px;
-        width: 90%;
-        height: 5%;
-        line-height: 20px;
-    }
-
-    .solucao_boxes{
-        height: 650px;
-        width: 100vw;
-        flex-direction: column;
+        justify-content: space-evenly;
         align-items: center;
     }
 
-    .solucao_img{
-        height: 48px;
-        width: 48px;
-    }
-
-    .solucao_box1{
-        border-radius: 20px;
-        width: 90%;
-        padding-top: 30px;
-        padding-bottom: 20px;
-    }
-
-    .solucao_box2{
-        border-radius: 20px;
-        width: 90%;
-        padding-top: 30px;
-        padding-bottom: 20px;
-    }
-
-    .solucao_box3{
-        border-radius: 20px;
-        width: 90%;
-        padding-top: 30px;
-        padding-bottom: 20px;
-    }
-
-    .solucao_texto_titulo{
-        font-size: 15px;
-    }
-
-    .solucao_texto{
-        font-size: 12px;
+    .banner {
         width: 100%;
-    }
-
-    #wave1{
-        width: 100%;
-    }
-
-    /* Area Planos */
-    .planos{
-        height: 820px;
-        width: 100%;
-    }
-
-    .planos_titulo_principal{
-        margin-top: 20vh;
-        font-size: 4vh;
-        border-bottom: #4D9E41 2px solid;
-        padding: 5px;
-        margin-bottom: 0;
+        height: 700px;
+        background-image: url(../assets/01\ 1.png);
+        background-size: 100%  100%;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column-reverse;
     }
 
     .plano_box{
-        flex-direction: column;
-    }
-
-    .planos_boxes{
-        height: 28vh;
-        width: 80vw;
-        margin-top: 50px;
-    }
-
-    .planos_titulo{
-        font-size: 4vh;
-    }
-
-    .planos_preco{
-        font-size: 3vh;
-    }
-
-    .planos_img{
-        height: 2vh;
-    }
-
-    .planos_texto{
-        font-size: 2vh;
-    }
-
-    .planos_botao{
-        height: 5vh;
-        margin-top: 2vh;
-        padding-top: 8px;
-        padding-bottom: 8px;
-    }
-
-    /* Area Contato */
-    
-    .contato_left_titulo{
-        font-size: 3vh;
-    }
-
-    .contato_left_texto{
-        font-size: 3vh;
-    }
-
-    .contato_left_conteudo{
-        width: 300px;
-    }
-
-    /* footer */
-
-    .footer{
-        height: 80vh;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        background-color: #1E1E1E;
+        border-radius: 10px;
+        /* margin: 10px; */
         width: 100%;
     }
 
-    .conteudo_footer{
-        flex-direction: row;
-        font-size: 3px;
-        justify-content: space-around;
-        height: 100%;
+    .solucao_frase{
+        width: 100%;
     }
 
-    .conteudo_footer_esquerda{
-        justify-content: center;
-        align-items: center;
-        width: 100vw;
-        font-size: 14px;
-    }
-
-    .conteudo_footer_direita{
-        width: 100vw;
-        justify-content: center;
-        align-items: center;
-    }
-}
+ }
 
 
 /* Celulares Modernos */
